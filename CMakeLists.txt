@@ -2,6 +2,11 @@ cmake_minimum_required(VERSION 3.2)
 project(msgpack11 VERSION 0.0.9 LANGUAGES CXX C)
 
 option(MSGPACK11_BUILD_TESTS "Build unit tests" ON)
+option(MSGPACK11_BUILD_FUZZER "Build fuzzer" OFF)
+
+if (MSGPACK11_BUILD_FUZZER)
+  add_compile_options(-fsanitize=fuzzer-no-link)
+endif()
 
 set(CMAKE_CXX_STANDARD 11)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
@@ -17,6 +22,10 @@ configure_file("msgpack11.pc.in" "msgpack11.pc" @ONLY)
 if (MSGPACK11_BUILD_TESTS)
   enable_testing()
   add_subdirectory(test)
+endif()
+
+if (MSGPACK11_BUILD_FUZZER)
+  add_subdirectory(mayhem)
 endif()
 
 install(TARGETS msgpack11 DESTINATION lib)
