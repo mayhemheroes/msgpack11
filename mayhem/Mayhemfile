@@ -1,0 +1,8 @@
+project: msgpack11
+target: fuzz-pack
+testsuite:
+    - file://mayhem/testsuite
+
+cmds:
+  - cmd: /fuzz_pack
+    libfuzzer: true
